@@ -1,13 +1,26 @@
 # Kubernetes_training
-Configuring Kubernetes cluster in AWS using Kubeadm in linux 
+Configuring Kubernetes cluster in AWS using EKS a serverless service
 LOG into AWS console 
 1. (AWS CLI on all OS:      https://aws.amazon.com/cli/).  This tool should be downloaded on your local workstation.
 A. Create I am user with its access key and secret access key and the .pem key pair.
-
-B.  Create 3 nodes, One for master and 2 for worker-nodes
+B. Create a policy and then an I am role for EKS to talk to other services like Ec2
+C. Download the aws-iam-auth on your local 
+D.  Create 3 nodes, One for master and 2 for worker-nodes
 Then ssh into the nodes from your workstation
 
-OR USING VAGRANT VIRTUAL MACHINE
+OR USING VAGRANT VIRTUAL MACHINE, JUST CLONE THE BELOW REPO TO SPIN UP 3 NODES, ENSURE YOU HAVE VIRTUALBOX INSTALLED ON YOUR LOCAL MACHINE
+
+git clone https://github.com/devopsjourney1/vagrant-labs.git
+
+cd into vagrant-labs and the cd into lab4-multiple_hosts ad you will see the vagrant file. On virtual box- file - Host-Network_manager and click on create button. Whatever IP address you see would be the same ip you have to configure in the ip session of the vagrant file 
+Then open 3 terminals and run the below command on the Server1 terminal 
+vagrant up
+Once vagrant is up and running then do 
+vagrant ssh Server1 on the Server1 terminal 
+Open a new tab for the second Server2 terminal and run the below command 
+vagrant ssh Server2 
+Open a new tab for the second Server3 terminal and run the below command 
+vagrant ssh Server3 
 
 Run below Commands for both master and worker nodes as a root user 
      
