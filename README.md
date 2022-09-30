@@ -1,6 +1,8 @@
 KUBERNETES installation with kubeadm for production environment
 RUN ON MASTER AND WORKER NODES
 
+git clone https://github.com/devopsjourney1/vagrant-labs.git
+
 sudo su -
 sudo apt install apt-transport-https ca-certificates curl gnupg-agent software-properties-common -y
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
