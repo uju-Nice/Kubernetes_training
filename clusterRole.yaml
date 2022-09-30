@@ -1,0 +1,38 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: my-eks
+rules:
+- apiGroups: ["*"]
+  resources:
+  - nodes
+  - namespaces
+  - nodes/proxy
+  - services
+  - endpoints
+  - pods
+  verbs: ["get", "list", "watch"]
+- apiGroups:
+  - extensions
+  resources:
+  - ingresses
+  verbs: ["get", "list", "watch"]
+- nonResourceURLs: ["/metrics"]
+  verbs: ["get"]
+
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: my-eks
+roleRef:
+  kind: ClusterRole
+  name: my-eks-ClusterRole
+  apiGroup: rbac.authorization.k8s.io
+subjects:
+- kind: Group
+  name: my-eks-Group
+  apiGroup: rbac.authorization.k8s.io
+
+  

@@ -1,0 +1,14 @@
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+metadata:
+  name: devops1-cluster  # name of the cluster 
+  region: us-east-1
+  version: 1.25
+nodeGroups:
+- name: linux-nodes
+  instanceType: t2.micro
+  minSize: 2
+  maxSize: 3
+  desiredCapacity: 3  # number of worker nodes you want 
+  ssh:
+    allow: true  # uses ~/.ssh/id_rsa.pub for the default public key 

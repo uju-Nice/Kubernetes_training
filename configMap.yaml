@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: my-config
+  namespace: team1
+data:
+username: myusername
+paswword: hplk jnsvdq
+ 

@@ -1,0 +1,64 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: hostpath-volume
+  labels:
+    type: local
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteOnce
+    volumeMode: Block 
+  capacity:
+    storage: 10Gi
+  hostPath:
+    path: "/mnt/data"
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: my-pvc
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 3Gi
+
+---
+apiVersion: v1
+kind: Deployment
+metadata:
+  name: my-deployment
+spec:
+  containers:
+    - name: my-nginx-volume
+      image: nginx
+      ports:
+        - containerPort: 80
+      volumeMounts:
+        - mountPath: "/usr/share/nginx/html"
+          name: pvc-storage
+  volumes:
+    - name: pvc-storage
+      persistentVolumeClaim:
+        claimName: my-pvc
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-service
+  labels:
+    app: nginx-app
+spec:
+  type: loadBalancer
+  selector:
+    app: nginx-app
+  ports:
+      protocol: TCP
+      port: 8080
+      targetPort: 80
+      nodePort: 32010

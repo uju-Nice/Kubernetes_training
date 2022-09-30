@@ -1,0 +1,53 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: my-ingress
+  annotations:
+    ingress.kubernetes.io/rewrite-target: /
+  name: tls-example-ingress
+spec:
+  tls:
+  - hosts:
+      - https-example.foo.com
+    secretName: testsecret-tls
+spec:
+  rules:
+  - host: first.bar.com
+    http:
+      paths:
+      - path: /foo
+        backend:
+          serviceName: my-service-1
+          servicePort: 80
+          
+  - host: second.bar.com
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/bar"
+        backend:
+          service:
+            serviceName: my-service-2
+            servicePort: 80
+             
+  - http:
+      paths:
+      - pathType: exact
+        path: "/"
+        backend:
+          service:
+            name: service3
+            port:
+              number: 80
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: testsecret-tls
+  namespace: team1
+data:
+  tls.crt: base64 encoded cert
+  tls.key: base64 encoded key
+type: kubernetes.io/tls
+
+

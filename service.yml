@@ -1,0 +1,67 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: my-service1
+spec:
+  type: ClusterIp
+  selector:
+    app: MyApp
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 9376
+
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: my-service2
+spec:
+  type: NodePort
+  selector:
+    app: MyApp
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 9376
+      nodePort: 31011
+
+
+
+kind: Service
+apiVersion: v1
+metadata:
+  name: my-service3
+spec:
+  type: load-balancer
+  selector:
+    app: MyApp
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 9376
+
+
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: my-ingress
+  annotations:
+    ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+  - host: foo.bar.com
+    http:
+      paths:
+      - path: /foo
+        backend:
+          serviceName: my-service-1
+          servicePort: 80
+      - path: /bar
+        backend:
+          serviceName: my-service-2
+          servicePort: 80
+
+
+           

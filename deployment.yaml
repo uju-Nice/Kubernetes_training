@@ -1,0 +1,66 @@
+---
+apiVersion: apps/v1
+kind: Namespace
+metadata:
+  namespace: team1
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+  namespace: team1
+  labels:
+    app: nginx-app
+spec:
+  selector: 
+    matchLabels: 
+      app: nginx-app
+  replicas: 3 # tells deployment to run 2 pods 
+  template: # create pods using pod definition in this template
+    metadata:
+      labels:
+        app: nginx-app
+    spec:
+      containers:
+        name: nginx-app
+        image: nginx
+        ports:
+          - containerPort: 80
+        resources:
+         requests:
+           memory: "100Mi"
+         limits:
+           memory: "200Mi"
+             command: ["stress"]
+             args: ["--vm", "1", "--vm-bytes", "150M", "--vm-hang", "1"]
+        env:
+          name: FIRSTNAME
+          value: NICE
+        volumeMounts:
+          - mountPath: "/usr/share/nginx/html"
+          name: pvc-storage
+        
+      # volumes:
+      #   name: pvc-storage
+      #   persistentVolumeClaim:
+      #     claimName: my-pvc
+          
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-service
+  labels:
+    app: nginx-app
+spec:
+  type: Nodeport
+  selector:
+    app: nginx-app
+  ports:
+      protocol: TCP
+      port: 8080
+      targetPort: 80
+      nodePort: 32010
+
+
