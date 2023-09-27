@@ -1,0 +1,24 @@
+kubernetes apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: n-deployment.yml
+spec:
+replica: 4
+namespace: team4
+  selector: nginx
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: <nginx>
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "200m"
+        ports:
+        - containerPort: <80>

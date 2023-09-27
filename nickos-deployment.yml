@@ -1,0 +1,23 @@
+kubernetes apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nickos-deployment.yml
+spec:
+replica: 3
+  selector:
+    matchLabels:
+      app: nickos-deployment.yml
+  template:
+    metadata:
+      labels:
+        app: nickos-deployment.yml
+    spec:
+      containers:
+      - name: nickos-deployment.yml
+        image: nginx
+        resources:
+          limits:
+            memory: 
+            cpu: 
+        ports:
+        - containerPort: 80

@@ -1,0 +1,23 @@
+ apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: blue-deployment
+spec:
+replica: 3
+  selector:
+    matchLabels:
+      app: blue-deployment
+  template:
+    metadata:
+      labels:
+        app: blue-deployment
+    spec:
+      containers:
+      - name: blue-deployment
+        image: nginx
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "250m"
+        ports:
+        - containerPort: <80>
